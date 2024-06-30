@@ -4,7 +4,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
 load "$PWD/lib/version"
 
 @test "Get version from .tool-versions file should return version from file" {
-	# arrage
+	# arrange
 	local tool_versions_file="$PWD/tests/fixtures/.tool-versions"
 
 	# act
@@ -16,7 +16,7 @@ load "$PWD/lib/version"
 }
 
 @test "Get version from any file should return version from file" {
-	# arrage
+	# arrange
 	local version_file="$PWD/tests/fixtures/.oblt-cli-version"
 
 	# act
@@ -28,8 +28,8 @@ load "$PWD/lib/version"
 }
 
 @test "Get version from or fallback should return version from file" {
-	# arrage
-	local version_file="$PWD/tests/fixtures/.oblt-cli-version"
+	# arrange
+	local -r version_file="$PWD/tests/fixtures/.oblt-cli-version"
 
 	# act
 	run get_version_from_file_or_fallback "$version_file" "7.2.5"
@@ -41,7 +41,7 @@ load "$PWD/lib/version"
 
 @test "Get version from input or fallback should return fallback" {
 	# arrange
-	local version_file="$PWD/non_existent_file"
+	local -r version_file="$PWD/non_existent_file"
 
 	# act
 	run get_version_from_file_or_fallback "$version_file" "7.2.5"

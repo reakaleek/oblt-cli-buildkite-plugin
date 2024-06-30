@@ -9,7 +9,7 @@ set -euo pipefail
 # Returns:
 #   version
 function get_version_from_file() {
-	local filename=$1
+	local -r filename=$1
 	case $(basename "$filename") in
 	".tool-versions")
 		grep "^oblt-cli" "${filename}" | awk '{ printf $2 }'
@@ -27,8 +27,8 @@ function get_version_from_file() {
 # Returns:
 #   version
 function get_version_from_file_or_fallback() {
-	local filename=$1
-	local fallback=$2
+	local -r filename="$1"
+	local -r fallback="$2"
 	if [[ -f ${filename} ]]; then
 		get_version_from_file "${filename}"
 		return

@@ -17,4 +17,4 @@ VERSION=$(get_version_from_file_or_fallback "${OBLT_CLI_VERSION_FILE}" "${OBLT_C
 
 echo "~~~ :elastic-apm: Set up oblt-cli ${VERSION}"
 
-setup "${VERSION}" "${OBLT_CLI_USERNAME}" "${OBLT_CLI_SLACK_CHANNEL}"
+setup "${VERSION}" "${OBLT_CLI_USERNAME}" "${OBLT_CLI_SLACK_CHANNEL}" "${HOME}/.oblt-cli/bin"

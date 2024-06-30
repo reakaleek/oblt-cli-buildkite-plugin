@@ -3,8 +3,7 @@
 set -euo pipefail
 
 function get_os() {
-	local system=${1:-$(uname -s)}
-
+	local -r system=${1:-$(uname -s)}
 	case "${system}" in
 	Darwin*)
 		echo 'darwin'
@@ -14,13 +13,13 @@ function get_os() {
 		;;
 	*)
 		>&2 echo "Unsupported OS. Exiting."
-		exit 1
+		return 1
 		;;
 	esac
 }
 
 function get_arch() {
-	local machine=${1:-$(uname -m)}
+	local -r machine=${1:-$(uname -m)}
 	case "${machine}" in
 	x86_64)
 		echo 'amd64'
@@ -30,28 +29,27 @@ function get_arch() {
 		;;
 	*)
 		>&2 echo "Unsupported architecture. Exiting."
-		exit 1
+		return 1
 		;;
 	esac
 }
 
 function get_asset_name() {
-	local version=$1
-	local system=${2:-}
-	local machine=${3:-}
+	local -r version=$1
+	local -r system=${2:-}
+	local -r machine=${3:-}
 	local os
 	local arch
-	if ! os=$(get_os "$system"); then exit 1; fi
-	if ! arch=$(get_arch "$machine"); then exit 1; fi
+	if ! os=$(get_os "$system"); then return 1; fi
+	if ! arch=$(get_arch "$machine"); then return 1; fi
 	echo "oblt-cli_${version}_${os}_${arch}.tar.gz"
 }
 
 function get_asset_id() {
-	local gh_token=${GH_TOKEN:-}
-	local version=$1
-	local asset_name
+	local -r gh_token=${GH_TOKEN:-}
+	local -r version=$1
+	local -r asset_name=$(get_asset_name "$version")
 	local release
-	asset_name=$(get_asset_name "$version")
 	release=$(curl -sL \
 		-H "Accept: application/vnd.github+json" \
 		-H "Authorization: Bearer ${gh_token}" \
@@ -61,9 +59,9 @@ function get_asset_id() {
 }
 
 function download_asset() {
-	local gh_token=${GH_TOKEN:-}
-	local asset_id=$1
-	local target_dir=$2
+	local -r gh_token=${GH_TOKEN:-}
+	local -r asset_id=$1
+	local -r target_dir=$2
 	curl -sL \
 		-H "Accept: application/octet-stream" \
 		-H "Authorization: Bearer ${gh_token}" \
