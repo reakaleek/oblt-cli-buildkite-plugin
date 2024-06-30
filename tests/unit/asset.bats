@@ -1,7 +1,5 @@
 #!/usr/bin/env bats
 
-export GH_TOKEN="fake_token"
-
 load "$BATS_PLUGIN_PATH/load.bash"
 load "$PWD/lib/asset"
 
@@ -57,8 +55,8 @@ load "$PWD/lib/asset"
 @test "Download asset should download asset" {
 	# arrange
 	tmp_dir=$(temp_make)
-
-	stub curl "cat $PWD/tests/fixtures/oblt-cli.tar.gz"
+	tar -czf "$tmp_dir/oblt-cli.tar.gz" --directory "$PWD/tests/fixtures" oblt-cli
+	stub curl "cat $tmp_dir/oblt-cli.tar.gz"
 
 	# act
 	run download_asset "176068054" "$tmp_dir"

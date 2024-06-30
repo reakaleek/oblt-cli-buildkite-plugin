@@ -47,26 +47,27 @@ function get_asset_name() {
 }
 
 function get_asset_id() {
+	local gh_token=${GH_TOKEN:-}
 	local version=$1
 	local asset_name
 	local release
 	asset_name=$(get_asset_name "$version")
-	release=$(curl -L \
+	release=$(curl -sL \
 		-H "Accept: application/vnd.github+json" \
-		-H "Authorization: Bearer ${GH_TOKEN}" \
+		-H "Authorization: Bearer ${gh_token}" \
 		-H "X-GitHub-Api-Version: 2022-11-28" \
 		"https://api.github.com/repos/elastic/observability-test-environments/releases/tags/${version}")
 	echo "$release" | jq -r --arg name "$asset_name" '.assets | .[] | select(.name == $name) | .id'
 }
 
 function download_asset() {
+	local gh_token=${GH_TOKEN:-}
 	local asset_id=$1
 	local target_dir=$2
 	curl -sL \
 		-H "Accept: application/octet-stream" \
-		-H "Authorization: Bearer ${GH_TOKEN}" \
+		-H "Authorization: Bearer ${gh_token}" \
 		-H "X-GitHub-Api-Version: 2022-11-28" \
-		"https://api.github.com/repos/elastic/observability-test-environments/releases/assets/${asset_id}" |
-		tar -xz -C "$target_dir"
+		"https://api.github.com/repos/elastic/observability-test-environments/releases/assets/${asset_id}" | tar -xz -C "$target_dir"
 	echo "$target_dir/oblt-cli"
 }
