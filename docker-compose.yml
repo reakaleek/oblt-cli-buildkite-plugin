@@ -1,10 +1,9 @@
-version: '2'
 services:
-  lint:
+  plugin-lint:
     image: buildkite/plugin-linter
     command: [ '--id', 'elastic/oblt-cli' ]
     volumes:
-      - ".:/plugin"
+      - ".:/plugin:ro"
   test:
     build:
       context: .

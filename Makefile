@@ -9,6 +9,6 @@ test:
 integration-test:
 	@docker compose run --rm integration-test
 
-.PHONY: lint
-lint:
-	@docker compose run lint
+.PHONY: plugin-lint
+plugin-lint:
+	@docker compose run plugin-lint

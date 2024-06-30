@@ -2,7 +2,7 @@
 
 load "$BATS_PLUGIN_PATH/load.bash"
 
-@test "pre-command" {
+@test "pre-command version from input" {
 	# act
 	run env BUILDKITE_PLUGIN_OBLT_CLI_USERNAME="obltmachine" \
 		BUILDKITE_PLUGIN_OBLT_CLI_SLACK_CHANNEL="#observablt-bots" \
@@ -15,7 +15,7 @@ load "$BATS_PLUGIN_PATH/load.bash"
 	assert_success
 }
 
-@test "pre-command2" {
+@test "pre-command version from file" {
 	# act
 	run env BUILDKITE_PLUGIN_OBLT_CLI_USERNAME="obltmachine" \
 		BUILDKITE_PLUGIN_OBLT_CLI_SLACK_CHANNEL="#observablt-bots" \
